@@ -1,0 +1,191 @@
+{
+	"info": {
+		"_postman_id": "8884b99c-721a-4906-bc62-54fa6ba5cfe4",
+		"name": "E-commerce API Testing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26610086"
+	},
+	"item": [
+		{
+			"name": "GetProducts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\",function(){",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response 有產品 array\",function(){",
+							"    const data=pm.response.json();",
+							"    pm.expect(data.products).to.be.an(\"array\")",
+							"})",
+							"",
+							"pm.test(\"每個產品含有必要欄位\",function(){",
+							"    const data=pm.response.json();",
+							"    pm.expect(data.products.length).to.be.greaterThan(0);",
+							"    ",
+							"    //檢查第一筆資料欄位",
+							"    const product=data.products[0];",
+							"    pm.expect(product).to.have.property(\"id\");",
+							"    pm.expect(product).to.have.property(\"title\");",
+							"    pm.expect(product).to.have.property(\"price\");",
+							"    pm.expect(product.price).to.be.a(\"number\");",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://dummyjson.com/products",
+					"protocol": "https",
+					"host": [
+						"dummyjson",
+						"com"
+					],
+					"path": [
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetSingleProduct",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\",function(){",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"確認產品有id\",function(){",
+							"    const data=pm.response.json();",
+							"    pm.expect(data).to.have.property(\"id\");",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://dummyjson.com/products/1",
+					"protocol": "https",
+					"host": [
+						"dummyjson",
+						"com"
+					],
+					"path": [
+						"products",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetMissingProduct",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\",function(){",
+							"    pm.response.to.have.status(404);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://dummyjson.com/products/999999",
+					"protocol": "https",
+					"host": [
+						"dummyjson",
+						"com"
+					],
+					"path": [
+						"products",
+						"999999"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddSingleProduct",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\",function(){",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"確認產品有id\",function(){",
+							"    const data=pm.response.json();",
+							"    pm.expect(data).to.have.property(\"id\");",
+							"    pm.expect(data).to.have.property(\"title\");",
+							"    pm.expect(data).to.have.property(\"category\");",
+							"    pm.expect(data).to.have.property(\"price\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"BMW Pencil\",\n    \"category\": \"Tools\",\n    \"price\": 9.99\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://dummyjson.com/products/add?title=BMW Pencil",
+					"protocol": "https",
+					"host": [
+						"dummyjson",
+						"com"
+					],
+					"path": [
+						"products",
+						"add"
+					],
+					"query": [
+						{
+							"key": "title",
+							"value": "BMW Pencil"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
