@@ -1,0 +1,19 @@
+
+# Python virtual environment
+.venv/
+
+# Python cache files
+__pycache__/
+*.py[cod]
+
+# Pytest cache and test results
+.pytest_cache/
+.pytest_results/
+test-results/
+playwright-report/
+
+# IDE settings
+.idea/
+
+# macOS system files
+.DS_Store
